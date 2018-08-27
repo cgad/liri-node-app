@@ -1,14 +1,11 @@
 require("dotenv").config();
 var keys = require("./keys.js");
 var inquirer = require("inquirer");
-
+var request = require("request");
 var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
 
-
-var input = process.argv.slice(2).join(" ");
-console.log(input);
-
+var input = process.argv.slice(3).join("+");
 
 function concertThis() {
     //search bandsintown artist events api
@@ -29,18 +26,18 @@ function spotifyThis() {
 }
 
 function movieThis() {
-    //omdb request package
-    //api key 'trilogy'
-    //return
-        //title
-        //year of release
-        //imdb rating
-        //rotten tomatoes rating
-        //country produced
-        //language
-        //plot
-        //actors
-    //if no input, default "Mr. Nobody" 
+    var apiKey = "trilogy";
+    var queryURL = "http://www.omdbapi.com/?t=" + input + "&y=&plot=short&apikey=" + apiKey;
+    if (input.length == 0) {
+        queryURL = "http://www.omdbapi.com/?t=Mr+Nobody&y=&plot=short&apikey=" + apiKey;
+    }
+    request(queryURL, function(error, response, body) {
+        if (!error && response.statusCode === 200) {
+            var short = JSON.parse(body);
+
+            console.log("\nTitle: " + short.Title + "\nRelease year: " + short.Year + "\nIMDB rating: " + short.imdbRating + "\nRotten Tomatoes rating: " + short.Ratings[1].Value + "\nProduction countr(y)/(ies): " + short.Country + "\nLanguage: " + short.Language + "\nPlot: " + short.Plot + "\nActors: " + short.Actors + "\n");
+        }
+    })
 }
 
 function whatever() {
@@ -48,8 +45,9 @@ function whatever() {
     //take text in random.txt, call one of other commands
 }
 
+var action = process.argv[2];
 
-switch (command) {
+switch (action) {
     case "concert-this":
         concertThis();
         break;
