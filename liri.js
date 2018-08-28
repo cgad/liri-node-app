@@ -35,19 +35,20 @@ function concertThis() {
 
 function spotifyThis() {
     if (input.length == 0) {
-        console.log("\nArtist(s): Ace of Base\nSong name: The Sign\nSong preview link: \nAlbum: The Sign\n");
-    } else {
-        spotify.search({ type: 'track', query: input }, function(err, data) {
-            if (err) {
-            return console.log('Error occurred: ' + err);
-            }
-        
-            console.log("\nTop 5 matches found on Spotify--\n");
-            for (var i = 0; i < 5; i++) {
-                console.log("Artist(s): " + data.tracks.items[i].album.artists[0].name + "\nSong name: " + data.tracks.items[i].name + "\nSong preview link: " + data.tracks.items[i].preview_url + "\nAlbum: " + data.tracks.items[i].album.name + "\n");
-            }
-        });
-    }    
+        // console.log("\nArtist(s): Ace of Base\nSong name: The Sign\nSong preview link: \nAlbum: The Sign\n");
+        input = "the+sign";
+        console.log(input);
+    }
+    spotify.search({ type: 'track', query: input }, function(err, data) {
+        if (err) {
+        return console.log('Error occurred: ' + err);
+        }
+    
+        console.log("\nTop 5 matches found on Spotify--\n");
+        for (var i = 0; i < 5; i++) {
+            console.log("Artist(s): " + data.tracks.items[i].album.artists[0].name + "\nSong name: " + data.tracks.items[i].name + "\nSong preview link: " + data.tracks.items[i].preview_url + "\nAlbum: " + data.tracks.items[i].album.name + "\n");
+        }
+    });
 }
 
 function movieThis() {
@@ -75,34 +76,25 @@ function whatever() {
         action = dataArr[0];
         input = dataArr[1];
 
-        switch (action) {
-            case "concert-this":
-                concertThis();
-                break;
-            case "spotify-this-song":
-                spotifyThis();
-                break;
-            case "movie-this":
-                movieThis();
-                break;
-            case "do-what-it-says":
-                whatever();
-                break;
-        }
+        runSwitch();
     });
 }
 
-switch (action) {
-    case "concert-this":
-        concertThis();
-        break;
-    case "spotify-this-song":
-        spotifyThis();
-        break;
-    case "movie-this":
-        movieThis();
-        break;
-    case "do-what-it-says":
-        whatever();
-        break;
+function runSwitch() {
+    switch (action) {
+        case "concert-this":
+            concertThis();
+            break;
+        case "spotify-this-song":
+            spotifyThis();
+            break;
+        case "movie-this":
+            movieThis();
+            break;
+        case "do-what-it-says":
+            whatever();
+            break;
+    }
 }
+
+runSwitch();
