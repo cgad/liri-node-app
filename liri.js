@@ -11,6 +11,7 @@ moment().format();
 var input = process.argv.slice(3).join("+");
 var action = process.argv[2];
 
+// concert-this
 function concertThis() {
     var appID = "codingbootcamp";
     var queryURL = "https://rest.bandsintown.com/artists/" + input + "/events?app_id=" + appID;
@@ -33,6 +34,7 @@ function concertThis() {
     })
 }
 
+// spotify-this
 function spotifyThis() {
     if (input.length == 0) {
         console.log("\nArtist(s): Ace of Base\nSong name: The Sign\nSong preview link: https://p.scdn.co/mp3-preview/4c463359f67dd3546db7294d236dd0ae991882ff?cid=bf5fa9f7c62a42f1bff8e89e8e0d3e94 \nAlbum: The Sign\n");
@@ -50,6 +52,7 @@ function spotifyThis() {
     }
 }
 
+// movie-this
 function movieThis() {
     var apiKey = "trilogy";
     var queryURL = "http://www.omdbapi.com/?t=" + input + "&y=&plot=short&apikey=" + apiKey;
@@ -66,6 +69,7 @@ function movieThis() {
     })
 }
 
+// do-what-it-says
 function whatever() {
     fs.readFile("random.txt", "utf8", function(error, data) {
         if (error) {
