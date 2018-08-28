@@ -4,15 +4,31 @@ var inquirer = require("inquirer");
 var request = require("request");
 var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
+var moment = require('moment');
+moment().format();
 
 var input = process.argv.slice(3).join("+");
 
 function concertThis() {
-    //search bandsintown artist events api
-    //return
-        //name of venue
-        //venue location
-        //date of event (moment- MM/DD/YYYY)
+    var appID = "codingbootcamp";
+    var queryURL = "https://rest.bandsintown.com/artists/" + input + "/events?app_id=" + appID;
+
+    request(queryURL, function(error, response, body) {
+        if (!error && response.statusCode === 200) {
+            var short = JSON.parse(body);
+            
+            console.log("\nNext 5 shows for " + short[0].lineup + "-- \n");
+            for (var i = 0; i < 5; i++) {
+                // converting date format using moment
+                var beforeDate = short[i].datetime;
+                var beforeFormat = "YYYY-MM-DDTHH:mm:ss";
+                var date = moment(beforeDate, beforeFormat);
+                var convertedDate = moment(date).format("MM/DD/YYYY");
+
+                console.log("Venue name: " + short[i].venue.name + "\nVenue location: " + short[i].venue.city + ", " + short[i].venue.region + "\nDate of event: " + convertedDate + "\n");
+            }
+        }
+    })
 }
 
 function spotifyThis() {
@@ -24,7 +40,10 @@ function spotifyThis() {
             return console.log('Error occurred: ' + err);
             }
         
-            console.log("\nArtist(s): " + data.tracks.items[0].album.artists[0].name + "\nSong name: " + data.tracks.items[0].name + "\nSong preview link: " + data.tracks.items[0].preview_url + "\nAlbum: " + data.tracks.items[0].album.name + "\n");
+            console.log("\nTop 5 matches found on Spotify--\n");
+            for (var i = 0; i < 5; i++) {
+                console.log("Artist(s): " + data.tracks.items[i].album.artists[0].name + "\nSong name: " + data.tracks.items[i].name + "\nSong preview link: " + data.tracks.items[i].preview_url + "\nAlbum: " + data.tracks.items[i].album.name + "\n");
+            }
         });
     }    
 }
