@@ -16,13 +16,17 @@ function concertThis() {
 }
 
 function spotifyThis() {
-    //node-spotify-api package
-    //return
-        //artist(s)
-        //song's name
-        //preview link of song
-        //album
-    //if no input, default "The Sign" by Ace of Base
+    if (input.length == 0) {
+        console.log("\nArtist(s): Ace of Base\nSong name: The Sign\nSong preview link: \nAlbum: The Sign\n");
+    } else {
+        spotify.search({ type: 'track', query: input }, function(err, data) {
+            if (err) {
+            return console.log('Error occurred: ' + err);
+            }
+        
+            console.log("\nArtist(s): " + data.tracks.items[0].album.artists[0].name + "\nSong name: " + data.tracks.items[0].name + "\nSong preview link: " + data.tracks.items[0].preview_url + "\nAlbum: " + data.tracks.items[0].album.name + "\n");
+        });
+    }    
 }
 
 function movieThis() {
