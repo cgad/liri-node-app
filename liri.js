@@ -4,10 +4,12 @@ var inquirer = require("inquirer");
 var request = require("request");
 var Spotify = require('node-spotify-api');
 var spotify = new Spotify(keys.spotify);
+var fs = require("fs");
 var moment = require('moment');
 moment().format();
 
 var input = process.argv.slice(3).join("+");
+var action = process.argv[2];
 
 function concertThis() {
     var appID = "codingbootcamp";
@@ -51,6 +53,7 @@ function spotifyThis() {
 function movieThis() {
     var apiKey = "trilogy";
     var queryURL = "http://www.omdbapi.com/?t=" + input + "&y=&plot=short&apikey=" + apiKey;
+
     if (input.length == 0) {
         queryURL = "http://www.omdbapi.com/?t=Mr+Nobody&y=&plot=short&apikey=" + apiKey;
     }
@@ -64,11 +67,30 @@ function movieThis() {
 }
 
 function whatever() {
-    //fs node package
-    //take text in random.txt, call one of other commands
-}
+    fs.readFile("random.txt", "utf8", function(error, data) {
+        if (error) {
+          return console.log(error);
+        }
+        var dataArr = data.split(",");
+        action = dataArr[0];
+        input = dataArr[1];
 
-var action = process.argv[2];
+        switch (action) {
+            case "concert-this":
+                concertThis();
+                break;
+            case "spotify-this-song":
+                spotifyThis();
+                break;
+            case "movie-this":
+                movieThis();
+                break;
+            case "do-what-it-says":
+                whatever();
+                break;
+        }
+    });
+}
 
 switch (action) {
     case "concert-this":
