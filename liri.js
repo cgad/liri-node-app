@@ -19,8 +19,8 @@ function concertThis() {
     request(queryURL, function(error, response, body) {
         if (!error && response.statusCode === 200) {
             var short = JSON.parse(body);
-            
-            console.log("\nNext 5 shows for " + short[0].lineup + "-- \n");
+
+            console.log("\nNext 5 shows for " + short[0].lineup[0] + "-- \n");
             for (var i = 0; i < 5; i++) {
                 // converting date format using moment
                 var beforeDate = short[i].datetime;
@@ -44,7 +44,7 @@ function spotifyThis() {
             return console.log('Error occurred: ' + err);
             }
         
-            console.log("\nTop 5 matches found on Spotify--\n");
+            console.log("\nTop 10 matches found on Spotify--\n");
             for (var i = 0; i < 10; i++) {
                 console.log("Artist(s): " + data.tracks.items[i].album.artists[0].name + "\nSong name: " + data.tracks.items[i].name + "\nSong preview link: " + data.tracks.items[i].preview_url + "\nAlbum: " + data.tracks.items[i].album.name + "\n");
             }
