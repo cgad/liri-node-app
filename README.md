@@ -1,7 +1,7 @@
 # liri-node-app
 
 ### About
-This is a NodeJS app that searches various APIs and returns specific data parsed from the query response.
+This is a Node.js app that searches various APIs and returns specific data parsed from the query response.
 
 This app saves time when searching for concert info on Bands In Town, song info on Spotify, or movie info on OMDB (Open Movie Database) by allowing the user to search in terminal rather than navigating to the respective website.
 
